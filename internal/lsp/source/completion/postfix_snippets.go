@@ -175,6 +175,12 @@ for {{.VarName .KeyType "k"}}, {{.VarName .ElemType "v"}} := range {{.X}} {
 {{.Import "fmt"}}.Println({{.X}})
 {{- end}}`,
 }, {
+	label:   "json",
+	details: "marshal as json",
+	body: `{{if and (ne .Kind "tuple") .StmtOK -}}
+{{.X}}JSON, _ := {{.Import "encoding/json"}}.MarshalIndent({{.X}}, "", "\t")
+{{- end}}`,
+}, {
 	label:   "split",
 	details: "split string",
 	body: `{{if (eq (.TypeName .Type) "string") -}}

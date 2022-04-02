@@ -412,6 +412,25 @@ func foo() string {
 	return strings.Join(x, "$0")
 }`,
 		},
+		{
+			name: "json",
+			before: `
+package foo
+
+func _() {
+	var foo []*int
+	foo.json
+}`,
+			after: `
+package foo
+
+import "encoding/json"
+
+func _() {
+	var foo []*int
+	fooJSON, _ := json.MarshalIndent(foo, "", "\t")
+}`,
+		},
 	}
 
 	r := WithOptions(Options(func(o *source.Options) {
